@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "wesbos/typescript"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
+}

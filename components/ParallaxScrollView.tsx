@@ -1,5 +1,7 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import type { PropsWithChildren, ReactElement } from 'react';
-import { StyleSheet, useColorScheme } from 'react-native';
+import { StyleSheet, View, useColorScheme } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -7,70 +9,69 @@ import Animated, {
   useScrollViewOffset,
 } from 'react-native-reanimated';
 
-import { ThemedView } from '@/components/ThemedView';
-
 const HEADER_HEIGHT = 250;
 
 type Props = PropsWithChildren<{
   headerImage: ReactElement;
-  headerBackgroundColor: { dark: string; light: string };
 }>;
 
-export default function ParallaxScrollView({
-  children,
-  headerImage,
-  headerBackgroundColor,
-}: Props) {
-  const colorScheme = useColorScheme() ?? 'light';
+export default function ParallaxScrollView({ children, headerImage }: Props) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
+  const theme = useTheme();
 
-  const headerAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateY: interpolate(
-            scrollOffset.value,
-            [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
-            [-HEADER_HEIGHT / 2, 0, HEADER_HEIGHT * 0.75]
-          ),
-        },
-        {
-          scale: interpolate(scrollOffset.value, [-HEADER_HEIGHT, 0, HEADER_HEIGHT], [2, 1, 1]),
-        },
-      ],
-    };
+  const headerAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: interpolate(
+          scrollOffset.value,
+          [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
+          [-HEADER_HEIGHT / 2, 0, HEADER_HEIGHT * 0.75],
+        ),
+      },
+      {
+        scale: interpolate(
+          scrollOffset.value,
+          [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
+          [2, 1, 1],
+        ),
+      },
+    ],
+  }));
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    header: {
+      height: 250,
+      overflow: 'hidden',
+    },
+    content: {
+      flex: 1,
+      gap: 16,
+      overflow: 'hidden',
+    },
   });
 
   return (
-    <ThemedView style={styles.container}>
+    <View style={styles.container}>
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
-        <Animated.View
-          style={[
-            styles.header,
-            { backgroundColor: headerBackgroundColor[colorScheme] },
-            headerAnimatedStyle,
-          ]}>
+        <Animated.View style={[styles.header, headerAnimatedStyle]}>
+          <LinearGradient
+            colors={['transparent', theme.colors.background]}
+            style={[
+              styles.header,
+              { position: 'absolute', backgroundColor: 'green' },
+            ]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+          />
           {headerImage}
         </Animated.View>
-        <ThemedView style={styles.content}>{children}</ThemedView>
+        <View style={styles.content}>{children}</View>
       </Animated.ScrollView>
-    </ThemedView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    height: 250,
-    overflow: 'hidden',
-  },
-  content: {
-    flex: 1,
-    padding: 32,
-    gap: 16,
-    overflow: 'hidden',
-  },
-});
