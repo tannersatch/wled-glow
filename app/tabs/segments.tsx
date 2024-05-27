@@ -8,7 +8,6 @@ const partialLogo = untypedLogo as ImageSourcePropType;
 export default function SegmentsScreen() {
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={<Image source={partialLogo} style={styles.reactLogo} />}
     >
       <View style={styles.titleContainer}>

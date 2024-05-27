@@ -1,14 +1,13 @@
 import { Image, ImageSourcePropType, StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import untypedHeader from '@/assets/images/header.webp';
-import { useNavigation } from 'expo-router';
-import { List, ListItemProps, useTheme } from 'react-native-paper';
-import { ReactNode } from 'react';
+import { router } from 'expo-router';
+import { List, useTheme } from 'react-native-paper';
+import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
 const partialHeader = untypedHeader as ImageSourcePropType;
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
   const theme = useTheme();
 
   const styles = StyleSheet.create({
@@ -24,18 +23,21 @@ export default function HomeScreen() {
     },
     reactLogo: {
       height: 178,
-      width: 290,
+      width: '100%',
       bottom: 0,
       left: 0,
       position: 'absolute',
+      resizeMode: 'cover',
     },
   });
 
-  const lightOnIcon = (props: ListItemProps['right']): ReactNode => (
+  type ListItemRightLeftProps = { color: string; style?: Style | undefined };
+
+  const lightOnIcon = (props: ListItemRightLeftProps) => (
     <List.Icon {...props} icon="lightbulb-on" />
   );
 
-  const lightOffIcon = (props: ListItemProps['right']): ReactNode => (
+  const lightOffIcon = (props: ListItemRightLeftProps) => (
     <List.Icon {...props} icon="lightbulb-off" />
   );
 
@@ -47,7 +49,19 @@ export default function HomeScreen() {
         title="Satchwell Holiday Lights"
         description="192.168.4.212"
         right={lightOnIcon}
-        onPress={() => navigation.navigate('tabs')}
+        onPress={() => router.navigate('tabs')}
+      />
+      <List.Item
+        title="Holiday Lights!!!"
+        description="192.168.4.18"
+        right={lightOnIcon}
+        onPress={() => router.navigate('tabs')}
+      />
+      <List.Item
+        title="Cool Office Lighting"
+        description="192.168.4.24"
+        right={lightOnIcon}
+        onPress={() => router.navigate('tabs')}
       />
     </ParallaxScrollView>
   );
