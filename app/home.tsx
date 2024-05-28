@@ -1,27 +1,22 @@
 import { Image, ImageSourcePropType, StyleSheet } from 'react-native';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import ParallaxScrollView from '@/components/layout/ParallaxScrollView';
 import untypedHeader from '@/assets/images/header.webp';
 import { router } from 'expo-router';
-import { List, useTheme } from 'react-native-paper';
+import { Card, List, Switch, Text } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
 const partialHeader = untypedHeader as ImageSourcePropType;
 
 export default function HomeScreen() {
-  const theme = useTheme();
-
   const styles = StyleSheet.create({
-    titleContainer: {
-      backgroundColor: theme.colors.background,
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 8,
+    title: {
+      paddingHorizontal: 20,
+      paddingTop: 20,
     },
-    stepContainer: {
-      gap: 8,
-      marginBottom: 8,
+    card: {
+      marginHorizontal: 10,
     },
-    reactLogo: {
+    headerImage: {
       height: 178,
       width: '100%',
       bottom: 0,
@@ -33,36 +28,50 @@ export default function HomeScreen() {
 
   type ListItemRightLeftProps = { color: string; style?: Style | undefined };
 
-  const lightOnIcon = (props: ListItemRightLeftProps) => (
-    <List.Icon {...props} icon="lightbulb-on" />
+  const drillInIcon = (props: ListItemRightLeftProps) => (
+    <List.Icon {...props} icon="chevron-right" />
   );
 
-  const lightOffIcon = (props: ListItemRightLeftProps) => (
-    <List.Icon {...props} icon="lightbulb-off" />
+  const powerSwitch = () => (
+    <Switch
+      value
+      onValueChange={() => {}}
+      style={{ marginLeft: 10, alignSelf: 'center' }}
+    />
   );
 
   return (
     <ParallaxScrollView
-      headerImage={<Image source={partialHeader} style={styles.reactLogo} />}
+      headerImage={<Image source={partialHeader} style={styles.headerImage} />}
     >
-      <List.Item
-        title="Satchwell Holiday Lights"
-        description="192.168.4.212"
-        right={lightOnIcon}
-        onPress={() => router.navigate('tabs')}
-      />
-      <List.Item
-        title="Holiday Lights!!!"
-        description="192.168.4.18"
-        right={lightOnIcon}
-        onPress={() => router.navigate('tabs')}
-      />
-      <List.Item
-        title="Cool Office Lighting"
-        description="192.168.4.24"
-        right={lightOnIcon}
-        onPress={() => router.navigate('tabs')}
-      />
+      <Text style={styles.title}>DEVICES</Text>
+      <Card style={styles.card}>
+        <List.Item
+          title="Satchwell Holiday Lights"
+          description="192.168.4.212"
+          left={powerSwitch}
+          right={drillInIcon}
+          onPress={() => router.navigate('tabs')}
+        />
+      </Card>
+      <Card style={styles.card}>
+        <List.Item
+          title="Holiday Lights!!!"
+          description="192.168.4.18"
+          left={powerSwitch}
+          right={drillInIcon}
+          onPress={() => router.navigate('tabs')}
+        />
+      </Card>
+      <Card style={styles.card}>
+        <List.Item
+          title="Cool Office Lighting"
+          description="192.168.4.24"
+          left={powerSwitch}
+          right={drillInIcon}
+          onPress={() => router.navigate('tabs')}
+        />
+      </Card>
     </ParallaxScrollView>
   );
 }

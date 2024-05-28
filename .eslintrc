@@ -6,5 +6,8 @@
     "import/resolver": {
       "typescript": {}
     }
-  }
+  },
+  "ignorePatterns": [
+    "babel.config.js"
+  ]
 }

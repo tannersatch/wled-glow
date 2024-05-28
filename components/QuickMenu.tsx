@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ToggleButton } from 'react-native-paper';
 
-const MyComponent = () => {
+const QuickMenu = () => {
   const [value, setValue] = React.useState<string[]>([]);
 
   const onValueChange = (val: string) =>
@@ -58,4 +58,4 @@ const MyComponent = () => {
   );
 };
 
-export default MyComponent;
+export default QuickMenu;

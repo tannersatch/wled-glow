@@ -17,23 +17,7 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="home" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="tabs"
-          options={{
-            headerStyle: {
-              backgroundColor:
-                colorScheme === 'dark'
-                  ? Theme.dark.colors.elevation.level2
-                  : Theme.light.colors.elevation.level2,
-            },
-            headerTitleStyle: {
-              color:
-                colorScheme === 'dark'
-                  ? Theme.dark.colors.onBackground
-                  : Theme.light.colors.onBackground,
-            },
-          }}
-        />
+        <Stack.Screen name="tabs" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </PaperProvider>

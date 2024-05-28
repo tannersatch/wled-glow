@@ -1,19 +1,36 @@
-import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import untypedLogo from '@/assets/images/partial-react-logo.png';
-import { Text, useTheme } from 'react-native-paper';
-import ContentContainer from '@/components/ContentContainer';
+import { Text } from 'react-native-paper';
+import ContentContainer from '@/components/layout/ContentContainer';
 import QuickMenu from '@/components/QuickMenu';
-
-const partialLogo = untypedLogo as ImageSourcePropType;
+import Header from '@/components/navigation/Header';
+import Light from '@/components/peek/Light';
+import { View } from 'react-native';
+import FABMenu from '@/components/FABMenu';
 
 export default function ColorsScreen() {
-  const theme = useTheme();
-
   return (
-    <ContentContainer>
-      <QuickMenu />
-      <Text>Colors!</Text>
-    </ContentContainer>
+    <>
+      <Header title="Colors" />
+      <ContentContainer>
+        <>
+          <QuickMenu />
+          <Text>Colors!</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <Light color="red" />
+            <Light color="red" />
+            <Light color="red" />
+            <Light color="red" />
+            <Light color="red" />
+            <Light color="green" />
+            <Light color="green" />
+            <Light color="green" />
+            <Light color="green" />
+            <Light color="blue" />
+            <Light color="blue" />
+            <Light color="blue" />
+          </View>
+          <FABMenu />
+        </>
+      </ContentContainer>
+    </>
   );
 }

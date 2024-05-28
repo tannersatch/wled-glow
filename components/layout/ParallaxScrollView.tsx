@@ -1,6 +1,5 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import type { PropsWithChildren, ReactElement } from 'react';
-import { StyleSheet, View, useColorScheme } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Animated, {
   interpolate,
@@ -47,6 +46,7 @@ export default function ParallaxScrollView({ children, headerImage }: Props) {
     header: {
       height: 250,
       overflow: 'hidden',
+      backgroundColor: theme.colors.elevation.level4,
     },
     content: {
       flex: 1,
@@ -59,15 +59,6 @@ export default function ParallaxScrollView({ children, headerImage }: Props) {
     <View style={styles.container}>
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
         <Animated.View style={[styles.header, headerAnimatedStyle]}>
-          <LinearGradient
-            colors={['transparent', theme.colors.background]}
-            style={[
-              styles.header,
-              { position: 'absolute', backgroundColor: 'green' },
-            ]}
-            start={{ x: 0.5, y: 0 }}
-            end={{ x: 0.5, y: 1 }}
-          />
           {headerImage}
         </Animated.View>
         <View style={styles.content}>{children}</View>

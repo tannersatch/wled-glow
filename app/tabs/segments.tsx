@@ -1,5 +1,5 @@
 import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import ParallaxScrollView from '@/components/layout/ParallaxScrollView';
 import untypedLogo from '@/assets/images/partial-react-logo.png';
 import { Text } from 'react-native-paper';
 
