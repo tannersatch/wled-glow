@@ -7,6 +7,7 @@ import Animated, {
   useAnimatedStyle,
   useScrollViewOffset,
 } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const HEADER_HEIGHT = 250;
 
@@ -18,6 +19,7 @@ export default function ParallaxScrollView({ children, headerImage }: Props) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
 
   const headerAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -43,21 +45,29 @@ export default function ParallaxScrollView({ children, headerImage }: Props) {
       flex: 1,
       backgroundColor: theme.colors.background,
     },
+    scrollContainer: {
+      flexGrow: 1,
+      paddingBottom: insets.bottom + 20,
+    },
     header: {
       height: 250,
       overflow: 'hidden',
-      backgroundColor: theme.colors.elevation.level4,
+      backgroundColor: theme.colors.background,
     },
     content: {
+      backgroundColor: theme.colors.background,
       flex: 1,
       gap: 16,
-      overflow: 'hidden',
     },
   });
 
   return (
     <View style={styles.container}>
-      <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
+      <Animated.ScrollView
+        ref={scrollRef}
+        scrollEventThrottle={16}
+        contentContainerStyle={styles.scrollContainer}
+      >
         <Animated.View style={[styles.header, headerAnimatedStyle]}>
           {headerImage}
         </Animated.View>

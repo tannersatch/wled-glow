@@ -1,31 +1,16 @@
 import { Image, ImageSourcePropType, StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/layout/ParallaxScrollView';
-import untypedHeader from '@/assets/images/header.webp';
+import untypedLogo from '@/assets/images/logo.png';
 import { router } from 'expo-router';
 import { Card, List, Switch, Text } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
+import AddDevice from '@/components/menus/AddDevice';
+import GroupItem from '@/components/groups/GroupItem';
+import DeviceItem from '@/components/devices/DeviceItem';
 
-const partialHeader = untypedHeader as ImageSourcePropType;
+const logo = untypedLogo as ImageSourcePropType;
 
 export default function HomeScreen() {
-  const styles = StyleSheet.create({
-    title: {
-      paddingHorizontal: 20,
-      paddingTop: 20,
-    },
-    card: {
-      marginHorizontal: 10,
-    },
-    headerImage: {
-      height: 178,
-      width: '100%',
-      bottom: 0,
-      left: 0,
-      position: 'absolute',
-      resizeMode: 'cover',
-    },
-  });
-
   type ListItemRightLeftProps = { color: string; style?: Style | undefined };
 
   const drillInIcon = (props: ListItemRightLeftProps) => (
@@ -40,38 +25,50 @@ export default function HomeScreen() {
     />
   );
 
+  const styles = StyleSheet.create({
+    title: {
+      paddingHorizontal: 20,
+      paddingTop: 20,
+    },
+    accordion: {
+      marginHorizontal: 10,
+      paddingVertical: 0,
+    },
+    card: {
+      marginHorizontal: 10,
+    },
+    nestedCard: {
+      marginLeft: 30,
+    },
+    nestedItem: {
+      marginLeft: 0,
+    },
+    headerImage: {
+      height: 178,
+      width: '100%',
+      bottom: 0,
+      position: 'absolute',
+      resizeMode: 'cover',
+      // marginHorizontal: '5%',
+    },
+  });
+
   return (
     <ParallaxScrollView
-      headerImage={<Image source={partialHeader} style={styles.headerImage} />}
+      headerImage={
+        <Image
+          source={logo}
+          // source={theme.dark ? logoWhite : logoBlack}
+          style={styles.headerImage}
+        />
+      }
     >
+      <Text style={styles.title}>GROUPS</Text>
+      <GroupItem />
       <Text style={styles.title}>DEVICES</Text>
-      <Card style={styles.card}>
-        <List.Item
-          title="Satchwell Holiday Lights"
-          description="192.168.4.212"
-          left={powerSwitch}
-          right={drillInIcon}
-          onPress={() => router.navigate('tabs')}
-        />
-      </Card>
-      <Card style={styles.card}>
-        <List.Item
-          title="Holiday Lights!!!"
-          description="192.168.4.18"
-          left={powerSwitch}
-          right={drillInIcon}
-          onPress={() => router.navigate('tabs')}
-        />
-      </Card>
-      <Card style={styles.card}>
-        <List.Item
-          title="Cool Office Lighting"
-          description="192.168.4.24"
-          left={powerSwitch}
-          right={drillInIcon}
-          onPress={() => router.navigate('tabs')}
-        />
-      </Card>
+      <DeviceItem />
+
+      <AddDevice />
     </ParallaxScrollView>
   );
 }

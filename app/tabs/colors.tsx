@@ -4,7 +4,6 @@ import QuickMenu from '@/components/QuickMenu';
 import Header from '@/components/navigation/Header';
 import Light from '@/components/peek/Light';
 import { View } from 'react-native';
-import FABMenu from '@/components/FABMenu';
 
 export default function ColorsScreen() {
   return (
@@ -28,7 +27,6 @@ export default function ColorsScreen() {
             <Light color="blue" />
             <Light color="blue" />
           </View>
-          <FABMenu />
         </>
       </ContentContainer>
     </>

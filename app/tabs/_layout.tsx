@@ -60,6 +60,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: theme.colors.elevation.level2,
+          borderTopWidth: 0,
         },
       }}
     >
