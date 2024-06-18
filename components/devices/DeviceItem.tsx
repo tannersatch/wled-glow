@@ -39,7 +39,8 @@ const DeviceItem = ({ nested }: DeviceItemProps) => {
         description="192.168.4.212"
         left={powerSwitch}
         right={drillInIcon}
-        onPress={() => router.navigate('tabs')}
+        onPress={() => router.navigate('wled-native')}
+        // onPress={() => router.navigate('tabs')}
         style={nested ? styles.nestedItem : {}}
       />
     </Card>

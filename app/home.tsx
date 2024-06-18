@@ -1,74 +1,65 @@
-import { Image, ImageSourcePropType, StyleSheet } from 'react-native';
+import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
 import ParallaxScrollView from '@/components/layout/ParallaxScrollView';
-import untypedLogo from '@/assets/images/logo.png';
-import { router } from 'expo-router';
-import { Card, List, Switch, Text } from 'react-native-paper';
-import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
+import untypedLogo from '@/assets/images/logo-white.png';
+import untypedBackground from '@/assets/images/background.png';
+import { Text } from 'react-native-paper';
 import AddDevice from '@/components/menus/AddDevice';
-import GroupItem from '@/components/groups/GroupItem';
+// import GroupItem from '@/components/groups/GroupItem';
 import DeviceItem from '@/components/devices/DeviceItem';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { usePathname } from 'expo-router';
 
 const logo = untypedLogo as ImageSourcePropType;
+const background = untypedBackground as ImageSourcePropType;
 
 export default function HomeScreen() {
-  type ListItemRightLeftProps = { color: string; style?: Style | undefined };
-
-  const drillInIcon = (props: ListItemRightLeftProps) => (
-    <List.Icon {...props} icon="chevron-right" />
-  );
-
-  const powerSwitch = () => (
-    <Switch
-      value
-      onValueChange={() => {}}
-      style={{ marginLeft: 10, alignSelf: 'center' }}
-    />
-  );
+  const insets = useSafeAreaInsets();
+  const pathname = usePathname();
 
   const styles = StyleSheet.create({
     title: {
       paddingHorizontal: 20,
       paddingTop: 20,
     },
-    accordion: {
-      marginHorizontal: 10,
-      paddingVertical: 0,
-    },
-    card: {
-      marginHorizontal: 10,
-    },
-    nestedCard: {
-      marginLeft: 30,
-    },
-    nestedItem: {
-      marginLeft: 0,
+    headerBackground: {
+      height: 178 + insets.top,
+      width: '100%',
+      resizeMode: 'cover',
     },
     headerImage: {
-      height: 178,
-      width: '100%',
-      bottom: 0,
+      height: 150,
+      maxWidth: '80%',
+      alignSelf: 'center',
+      resizeMode: 'contain',
       position: 'absolute',
-      resizeMode: 'cover',
-      // marginHorizontal: '5%',
+      bottom: 14,
     },
   });
 
   return (
     <ParallaxScrollView
       headerImage={
-        <Image
-          source={logo}
-          // source={theme.dark ? logoWhite : logoBlack}
-          style={styles.headerImage}
-        />
+        <View>
+          <Image
+            source={background}
+            // source={theme.dark ? logoWhite : logoBlack}
+            style={styles.headerBackground}
+          />
+          <Image
+            source={logo}
+            // source={theme.dark ? logoWhite : logoBlack}
+            style={styles.headerImage}
+          />
+        </View>
       }
     >
-      <Text style={styles.title}>GROUPS</Text>
-      <GroupItem />
+      {/* <Text style={styles.title}>GROUPS</Text>
+      <GroupItem /> */}
       <Text style={styles.title}>DEVICES</Text>
+
       <DeviceItem />
 
-      <AddDevice />
+      {pathname === '/' || pathname === '/home' ? <AddDevice /> : null}
     </ParallaxScrollView>
   );
 }

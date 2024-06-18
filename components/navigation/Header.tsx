@@ -1,7 +1,13 @@
 import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  View,
+  ImageSourcePropType,
+} from 'react-native';
 import { IconButton, Text, useTheme } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import untypedBackground from '@/assets/images/background.png';
 
 type HeaderProps = {
   title: string;
@@ -11,9 +17,11 @@ const Header = ({ title }: HeaderProps) => {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
 
+  const background = untypedBackground as ImageSourcePropType;
+
   const styles = StyleSheet.create({
     container: {
-      backgroundColor: theme.colors.elevation.level2,
+      backgroundColor: theme.colors.primaryContainer,
       height: 60 + insets.top,
       paddingTop: insets.top,
     },
@@ -25,6 +33,7 @@ const Header = ({ title }: HeaderProps) => {
     },
     title: {
       fontSize: 20,
+      color: '#fff',
     },
     backButton: {
       position: 'absolute',
@@ -33,16 +42,17 @@ const Header = ({ title }: HeaderProps) => {
   });
 
   return (
-    <View style={styles.container}>
+    <ImageBackground source={background} style={styles.container}>
       <View style={styles.header}>
         <IconButton
           icon="chevron-left"
           onPress={() => router.back()}
           style={styles.backButton}
+          iconColor="#fff"
         />
         <Text style={styles.title}>{title}</Text>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
