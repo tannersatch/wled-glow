@@ -2,12 +2,16 @@ import { StyleSheet } from 'react-native';
 import { Card, List, Switch } from 'react-native-paper';
 import { router } from 'expo-router';
 import { ListItemRightLeftProps } from '@/types/rnp-custom-types';
+import { Service } from 'react-native-zeroconf';
+import { useAppState } from '@/contexts/AppStateProvider';
 
-export type DeviceItemProps = {
+export type MyDeviceItemProps = {
   nested?: boolean;
+  device: Service;
 };
 
-const DeviceItem = ({ nested }: DeviceItemProps) => {
+const MyDeviceItem = ({ nested, device }: MyDeviceItemProps) => {
+  const { setState } = useAppState();
   const drillInIcon = (props: ListItemRightLeftProps) => (
     <List.Icon {...props} icon="chevron-right" />
   );
@@ -19,6 +23,13 @@ const DeviceItem = ({ nested }: DeviceItemProps) => {
       style={{ marginLeft: 10, alignSelf: 'center' }}
     />
   );
+
+  const removeFromMyDevices = () => {
+    setState((prevState) => ({
+      ...prevState,
+      myDevices: prevState.myDevices.filter((d) => d.host !== device.host),
+    }));
+  };
 
   const styles = StyleSheet.create({
     card: {
@@ -35,16 +46,17 @@ const DeviceItem = ({ nested }: DeviceItemProps) => {
   return (
     <Card style={[styles.card, nested ? styles.nestedCard : {}]}>
       <List.Item
-        title="Satchwell Holiday Lights"
-        description="192.168.4.212"
+        title={device.fullName}
+        description={device.addresses[0]}
         left={powerSwitch}
         right={drillInIcon}
         onPress={() => router.navigate('wled-native')}
         // onPress={() => router.navigate('tabs')}
+        onLongPress={removeFromMyDevices}
         style={nested ? styles.nestedItem : {}}
       />
     </Card>
   );
 };
 
-export default DeviceItem;
+export default MyDeviceItem;

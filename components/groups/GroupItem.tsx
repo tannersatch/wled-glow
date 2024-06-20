@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { List, Switch } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
-import DeviceItem from '../devices/DeviceItem';
+import DeviceItem from '../devices/MyDeviceItem';
 
 const GroupItem = () => {
   const powerSwitch = () => (

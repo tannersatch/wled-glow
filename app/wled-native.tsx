@@ -3,8 +3,10 @@ import { ImageBackground, StyleSheet, ImageSourcePropType } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
 import untypedBackground from '@/assets/images/background.png';
+// import { useTheme } from 'react-native-paper';
 
 export default function ColorsScreen() {
+  // const theme = useTheme();
   const insets = useSafeAreaInsets();
 
   const background = untypedBackground as ImageSourcePropType;
@@ -25,6 +27,11 @@ export default function ColorsScreen() {
       <WebView
         style={styles.webview}
         source={{ uri: 'http://192.168.4.212' }}
+        // injectedJavaScript={`
+        //   document.body.style.backgroundColor = '${theme.colors.background}';
+        //   true; // note: this is required, or you'll sometimes get silent failures
+        // `}
+        // onMessage={() => null}
       />
     </ImageBackground>
   );
