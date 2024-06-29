@@ -93,7 +93,7 @@ const AddDevice = () => {
             icon="close"
             onPress={hideDialog}
             style={styles.closeIcon}
-            containerColor={theme.colors.backdrop}
+            // containerColor={theme.colors.backdrop}
           />
         </Dialog.ScrollArea>
       </Dialog>

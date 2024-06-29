@@ -29,12 +29,6 @@ export default function HomeScreen() {
 
   return (
     <ParallaxScrollView
-      // headerImage={
-      //   <View>
-      //     <Image source={background} style={styles.headerBackground} />
-      //     <Image source={logo} style={styles.headerImage} />
-      //   </View>
-      // }
       headerImage={
         <GlowBackground>
           <Image source={logo} style={styles.headerImage} />

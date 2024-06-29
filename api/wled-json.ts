@@ -31,11 +31,9 @@ export default class WLED {
   async init() {
     try {
       await this.getInfo();
-      console.debug('outside');
       this.isReady = true;
     } catch (error) {
       console.error(error);
-      console.debug('inside');
       this.isReady = false;
     }
   }

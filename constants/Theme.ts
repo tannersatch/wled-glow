@@ -1,8 +1,11 @@
 import { MD3LightTheme, MD3DarkTheme } from 'react-native-paper';
 
+const commonValues = {};
+
 export const Theme = {
   light: {
     ...MD3LightTheme,
+    ...commonValues,
     colors: {
       ...MD3LightTheme.colors,
       primary: 'rgb(112, 69, 184)',
@@ -45,10 +48,19 @@ export const Theme = {
       surfaceDisabled: 'rgba(29, 27, 30, 0.12)',
       onSurfaceDisabled: 'rgba(29, 27, 30, 0.38)',
       backdrop: 'rgba(51, 47, 55, 0.4)',
+      success: 'rgb(16, 109, 32)',
+      onSuccess: 'rgb(255, 255, 255)',
+      successContainer: 'rgb(157, 248, 152)',
+      onSuccessContainer: 'rgb(0, 34, 4)',
+      warning: 'rgb(135, 82, 0)',
+      onWarning: 'rgb(255, 255, 255)',
+      warningContainer: 'rgb(255, 221, 186)',
+      onWarningContainer: 'rgb(43, 23, 0)',
     },
   },
   dark: {
     ...MD3DarkTheme,
+    ...commonValues,
     colors: {
       ...MD3DarkTheme.colors,
       primary: 'rgb(212, 187, 255)',
@@ -91,6 +103,17 @@ export const Theme = {
       surfaceDisabled: 'rgba(230, 225, 230, 0.12)',
       onSurfaceDisabled: 'rgba(230, 225, 230, 0.38)',
       backdrop: 'rgba(51, 47, 55, 0.4)',
+      success: 'rgb(130, 219, 126)',
+      onSuccess: 'rgb(0, 57, 10)',
+      successContainer: 'rgb(0, 83, 18)',
+      onSuccessContainer: 'rgb(157, 248, 152)',
+      warning: 'rgb(255, 184, 101)',
+      onWarning: 'rgb(72, 42, 0)',
+      warningContainer: 'rgb(102, 61, 0)',
+      onWarningContainer: 'rgb(255, 221, 186)',
     },
   },
 };
+
+export type DarkAppTheme = typeof Theme.light;
+export type LightAppTheme = typeof Theme.dark;
