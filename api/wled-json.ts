@@ -1,3 +1,4 @@
+import to from 'await-to-js';
 import { WLEDInfo } from './types.wled';
 
 export type JSONAPIFetchOptions = {
@@ -19,7 +20,7 @@ export default class WLED {
     port = 80,
   }: {
     secure?: boolean;
-    host: string;
+    host: string | undefined;
     port?: number;
   }) {
     this.url = `${secure ? 'https' : 'http'}://${host}${port ? `:${port}` : ''}`;
@@ -28,19 +29,16 @@ export default class WLED {
   }
 
   async init() {
-    await this.getInfo().catch(() => {
+    try {
+      await this.getInfo();
+      console.debug('outside');
+      this.isReady = true;
+    } catch (error) {
+      console.error(error);
+      console.debug('inside');
       this.isReady = false;
-    });
-    this.isReady = true;
+    }
   }
-
-  // handleErrors(response: Response) {
-  //   if (!response.ok) {
-  //     this.emit('error', response);
-  //     throw response;
-  //   }
-  //   return response;
-  // }
 
   async timedFetch(
     path: string,
@@ -63,10 +61,19 @@ export default class WLED {
 
   async getInfo(options: JSONAPIFetchOptions = {}) {
     const { timeout } = options;
-    const response = await this.timedFetch('/info', {
-      timeout,
-    });
-    const object = (await response.json()) as WLEDInfo;
+    const [infoErr, response] = await to(
+      this.timedFetch('/info', {
+        timeout,
+      }),
+    );
+    if (infoErr) {
+      throw new Error('WLED: Failed to fetch info');
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const [parseErr, object] = (await to(response.json())) as [any, WLEDInfo];
+    if (parseErr) {
+      throw new Error('WLED: Failed to parse info');
+    }
     this.info = object;
     return object;
   }

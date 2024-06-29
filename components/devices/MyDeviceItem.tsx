@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { ListItemRightLeftProps } from '@/types/rnp-custom-types';
 import { Service } from 'react-native-zeroconf';
 import { useAppState } from '@/contexts/AppStateProvider';
+import useWled from '@/hooks/useWled';
 
 export type MyDeviceItemProps = {
   nested?: boolean;
@@ -12,8 +13,10 @@ export type MyDeviceItemProps = {
 
 const MyDeviceItem = ({ nested, device }: MyDeviceItemProps) => {
   const { setState } = useAppState();
-  const drillInIcon = (props: ListItemRightLeftProps) => (
-    <List.Icon {...props} icon="chevron-right" />
+  const { wled, isReady } = useWled(device.addresses[0]);
+
+  const disconnectedIcon = (props: ListItemRightLeftProps) => (
+    <List.Icon {...props} icon="cloud-off-outline" />
   );
 
   const powerSwitch = () => (
@@ -22,6 +25,14 @@ const MyDeviceItem = ({ nested, device }: MyDeviceItemProps) => {
       onValueChange={() => {}}
       style={{ marginLeft: 10, alignSelf: 'center' }}
     />
+  );
+
+  const drillInIcon = (props: ListItemRightLeftProps) => (
+    <List.Icon {...props} icon="chevron-right" />
+  );
+
+  const refreshIcon = (props: ListItemRightLeftProps) => (
+    <List.Icon {...props} icon="refresh" />
   );
 
   const removeFromMyDevices = () => {
@@ -48,9 +59,18 @@ const MyDeviceItem = ({ nested, device }: MyDeviceItemProps) => {
       <List.Item
         title={device.fullName}
         description={device.addresses[0]}
-        left={powerSwitch}
-        right={drillInIcon}
-        onPress={() => router.navigate('wled-native')}
+        left={wled && isReady ? powerSwitch : disconnectedIcon}
+        right={wled && isReady ? drillInIcon : refreshIcon}
+        onPress={() =>
+          wled && isReady
+            ? router.navigate(
+                `wled-native/${JSON.stringify(device.addresses[0])}`,
+              )
+            : wled?.init()
+        }
+        // onPress={() =>
+        //   router.navigate({ pathname: 'wled-native', params: device })
+        // }
         // onPress={() => router.navigate('tabs')}
         onLongPress={removeFromMyDevices}
         style={nested ? styles.nestedItem : {}}

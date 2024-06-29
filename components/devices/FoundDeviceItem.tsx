@@ -10,10 +10,16 @@ export type FoundDeviceItemProps = {
 };
 
 const FoundDeviceItem = ({ nested, device }: FoundDeviceItemProps) => {
-  const { setState } = useAppState();
+  const { state, setState } = useAppState();
+  const isAdded =
+    state.myDevices.findIndex((d) => d.host === device.host) !== -1;
 
   const addIcon = (props: ListItemRightLeftProps) => (
     <List.Icon {...props} icon="plus" />
+  );
+
+  const removeIcon = (props: ListItemRightLeftProps) => (
+    <List.Icon {...props} icon="check" color="limegreen" />
   );
 
   const addToMyDevices = () => {
@@ -23,9 +29,17 @@ const FoundDeviceItem = ({ nested, device }: FoundDeviceItemProps) => {
     }));
   };
 
+  const removeFromMyDevices = () => {
+    setState((prevState) => ({
+      ...prevState,
+      myDevices: prevState.myDevices.filter((d) => d.host !== device.host),
+    }));
+  };
+
   const styles = StyleSheet.create({
     card: {
-      marginHorizontal: 10,
+      marginHorizontal: 0,
+      marginBottom: 10,
     },
     nestedCard: {
       marginLeft: 30,
@@ -39,9 +53,11 @@ const FoundDeviceItem = ({ nested, device }: FoundDeviceItemProps) => {
     <Card style={[styles.card, nested ? styles.nestedCard : {}]}>
       <List.Item
         title={device.fullName}
-        description={device.addresses[0]}
-        right={addIcon}
-        onPress={addToMyDevices}
+        description={
+          isAdded ? 'Already added! Tap to remove' : device.addresses[0]
+        }
+        right={isAdded ? removeIcon : addIcon}
+        onPress={isAdded ? removeFromMyDevices : addToMyDevices}
         style={nested ? styles.nestedItem : {}}
       />
     </Card>

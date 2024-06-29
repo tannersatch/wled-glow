@@ -1,27 +1,21 @@
-import { Service } from 'react-native-zeroconf';
 import { Text } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
+import { useAppState } from '@/contexts/AppStateProvider';
 import DeviceItem from './MyDeviceItem';
 
-export type MyDevicesProps = {
-  devices: Service[];
-};
+const MyDevices = () => {
+  const { state } = useAppState();
 
-const MyDevices = ({ devices }: MyDevicesProps) => {
   const styles = StyleSheet.create({
     text: {
       alignSelf: 'center',
     },
   });
 
-  if (devices.length === 0) {
-    return (
-      <Text style={styles.text}>
-        You don't have any devices! Add them below.
-      </Text>
-    );
+  if (state.myDevices.length === 0) {
+    return <Text style={styles.text}>You don't have any devices!</Text>;
   }
-  return devices.map((device) => (
+  return state.myDevices.map((device) => (
     <DeviceItem key={device.host} device={device} />
   ));
 };
